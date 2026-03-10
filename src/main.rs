@@ -8,13 +8,3 @@ fn main() {
         .get_matches();
 
 }
-/*
-cargo run -q -- -h
-Rust version of `echo`
-
-Usage: echor
-
-Options:
-  -h, --help     Print help
-  -V, --version  Print version
-*/
