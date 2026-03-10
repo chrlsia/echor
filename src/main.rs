@@ -10,4 +10,7 @@ cargo r -n Hello world
 Usage: run [OPTIONS] [ARGS]...
 
 For more information, try '--help'
+-------------
+cargo r -- -n Hello world
+Args { inner: ["target/debug/echor", "-n", "Hello", "world"] }
 */
