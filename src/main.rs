@@ -1,7 +1,7 @@
 use clap::{Arg,ArgAction,Command};
 
 fn main() {
-    let matches= Command::new("echor")
+    let _matches= Command::new("echor")
         .version("0.1.0")
         .author("Chris Siannas <xrsia@otenet.gr>")
         .about("Rust version of `echo`")
@@ -20,14 +20,16 @@ fn main() {
         )
         .get_matches();
 
-    let text: Vec<&String> = matches
-        .get_many::<String>("text")
-        .unwrap()
-        .collect();
+        println!("{:#?}",_matches);
+        
+    // let text: Vec<&String> = matches
+    //     .get_many::<String>("text")
+    //     .unwrap()
+    //     .collect();
 
-    let omit_newline = matches.get_flag("omit_newline");
+    // let omit_newline = matches.get_flag("omit_newline");
 
-    println!("text: {:?}", text);
-    println!("omit_newline: {}", omit_newline);
+    // println!("text: {:?}", text);
+    // println!("omit_newline: {}", omit_newline);
 
 }
