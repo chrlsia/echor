@@ -1,11 +1,12 @@
+use anyhow::Result;
 use assert_cmd::Command;
 use predicates::prelude::*;
 use std::fs;
 
 #[test]
-fn dies_no_args(){
+fn dies_no_args()->Result<()>{
     // mesa apo to current crate pare thn command echor
-    let mut cmd=Command::cargo_bin("echor").unwrap();
+    let mut cmd=Command::cargo_bin("echor")?;
     // exv thn command sthn cmd,cmd
     // trejthn , assert
     // bebaivsou oti apetyxe, failure
@@ -15,20 +16,23 @@ fn dies_no_args(){
     cmd.assert()
         .failure()
         .stderr(predicate::str::contains("Usage"));
+    Ok(())
 }
 
 #[test]
-fn run(){
-    let mut cmd= Command::cargo_bin("echor").unwrap();
+fn run()->Result<()>{
+    let mut cmd= Command::cargo_bin("echor")?;
     cmd.arg("hello").assert().success();
+    Ok(())
 }
 
 #[test]
-fn hello1(){
+fn hello1()->Result<()>{
     let outfile="tests/expected/hello1.txt";
-    let expected=fs::read_to_string(outfile).unwrap();
+    let expected=fs::read_to_string(outfile)?;
     dbg!(&expected);
-    let mut cmd=Command::cargo_bin("echor").unwrap();
+    let mut cmd=Command::cargo_bin("echor")?;
     cmd.arg("Hello there").assert().success().stdout(expected);
+    Ok(())
 
 }
