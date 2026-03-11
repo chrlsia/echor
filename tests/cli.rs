@@ -36,3 +36,15 @@ fn hello1()->Result<()>{
     Ok(())
 
 }
+
+#[test]
+fn hello2()->Result<()>{
+    let outfile="tests/expected/hello2.txt";
+    let expected=fs::read_to_string(outfile)?;
+    dbg!(&expected);
+    let mut cmd=Command::cargo_bin("echor")?;
+    // here is .args 
+    cmd.args(vec!["Hello","there"]).assert().success().stdout(expected);
+    Ok(())
+
+}
