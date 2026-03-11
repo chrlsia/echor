@@ -1,7 +1,7 @@
 use clap::{Arg,ArgAction,Command};
 
 fn main() {
-    let _matches= Command::new("echor")
+    let matches= Command::new("echor")
         .version("0.1.0")
         .author("Chris Siannas <xrsia@otenet.gr>")
         .about("Rust version of `echo`")
@@ -20,16 +20,22 @@ fn main() {
         )
         .get_matches();
 
-        println!("{:#?}",_matches);
-        
-    // let text: Vec<&String> = matches
-    //     .get_many::<String>("text")
-    //     .unwrap()
-    //     .collect();
+        // println!("{:#?}",matches);
 
-    // let omit_newline = matches.get_flag("omit_newline");
+        let text: Vec<String>=matches.get_many("text").unwrap().cloned().collect();
+        let omit_newline=matches.get_flag("omit_newline");
 
-    // println!("text: {:?}", text);
-    // println!("omit_newline: {}", omit_newline);
+        print!("{} {}",text.join(" "),if omit_newline {""} else {"\n"});
+
 
 }
+/*
+cargo r -q -- Hello world
+Hello world 
+
+cargo r -q -- -n Hello world
+Hello world # my/solutions echor on master U:1 with changes
+
+cargo r -q -- Hello world Chris "\"ela na me deis\""
+Hello world Chris "ela na me deis" 
+*/
