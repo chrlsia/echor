@@ -24,7 +24,7 @@ struct Args{
 
 fn main(){
     let args= Args::parse();
-    dbg!(args);
+    dbg!(&args);
     print!(
         "{}{}",
         args.text.join(" "),
