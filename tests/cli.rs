@@ -2,6 +2,19 @@ use anyhow::Result;
 use assert_cmd::Command;
 use predicates::prelude::*;
 use std::fs;
+use pretty_assertions::assert_eq;
+
+fn run(args:&[&str],expected_file:&str)->Result<()>{
+    let expected=fs::read_to_string(expected_file)?;
+    let output=Command::cargo_bin("echor")?
+        .args(args)
+        .output()
+        .expect("fail");
+
+    let stdout=String::from_utf8(output.stdout).expect("Invalid UTF-8");
+    assert_eq!(stdout,expected);
+    Ok(())
+}
 
 #[test]
 fn dies_no_args()->Result<()>{
@@ -19,12 +32,12 @@ fn dies_no_args()->Result<()>{
     Ok(())
 }
 
-#[test]
-fn run()->Result<()>{
-    let mut cmd= Command::cargo_bin("echor")?;
-    cmd.arg("hello").assert().success();
-    Ok(())
-}
+// #[test]
+// fn run()->Result<()>{
+//     let mut cmd= Command::cargo_bin("echor")?;
+//     cmd.arg("hello").assert().success();
+//     Ok(())
+// }
 
 #[test]
 fn hello1()->Result<()>{
