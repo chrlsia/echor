@@ -1,41 +1,48 @@
-use clap::{Arg,ArgAction,Command};
+use clap::Parser; // it is a trait, we need it
 
-fn main() {
-    let matches= Command::new("echor")
-        .version("0.1.0")
-        .author("Chris Siannas <xrsia@otenet.gr>")
-        .about("Rust version of `echo`")
-        .arg(
-            Arg::new("text")
-            .value_name("TEXT")
-            .help("Input text")
-            .required(true)
-            .num_args(1..),
-        )
-        .arg(
-            Arg::new("omit_newline")
-            .short('n')
-            .action(ArgAction::SetTrue)
-            .help("Do not print newline"),
-        )
-        .get_matches();
+// it expands the capabilities of the following struct
+#[derive(Debug,Parser)]
+// turn the struct into a clap::Command object
+// get values of author and version from Cargo.toml
+// get value of about from /// below
+#[command(author,version,about)]
+/// Rust version of `echo`
 
-        // println!("{:#?}",matches);
+// Define a struct called Args
+// each member of struct becomes clap::Arg
+struct Args{
+    /// Input text
+    // field text is required
+    #[arg(required(true))]
+    text: Vec<String>,
 
-        let text: Vec<String>=matches.get_many("text").unwrap().cloned().collect();
-        let omit_newline=matches.get_flag("omit_newline");
-
-        print!("{}{}",text.join(" "),if omit_newline {""} else {"\n"});
-
-
+    /// Do not print newline
+    // define a short flag -n for the following argument
+    #[arg(short('n'))]
+    omit_newline: bool,// default to false
 }
+
+fn main(){
+    let args= Args::parse();
+    dbg!(args);
+}
+
 /*
-cargo r -q -- Hello world
-Hello world 
+cargo run -q -- Hello world
+[src/main.rs:27:5] args = Args {
+    text: [
+        "Hello",
+        "world",
+    ],
+    omit_newline: false,
+}
 
-cargo r -q -- -n Hello world
-Hello world # my/solutions echor on master U:1 with changes
-
-cargo r -q -- Hello world Chris "\"ela na me deis\""
-Hello world Chris "ela na me deis" 
+cargo run -q -- -n Hello world
+[src/main.rs:27:5] args = Args {
+    text: [
+        "Hello",
+        "world",
+    ],
+    omit_newline: true,
+}
 */
